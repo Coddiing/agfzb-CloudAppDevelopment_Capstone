@@ -32,7 +32,7 @@ def contact(request):
 def login_request(request):
     if request.method=='POST':
         user = request.POST[ 'username' ]
-        password = request.POST[ 'password' ]
+        password = request.POST[ 'psw' ]
 
         user = authenticate( username=user, password=password )
 
@@ -46,8 +46,11 @@ def login_request(request):
 
 
 # Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+def logout_request(request):
+    print ( 'Logging you out' )
+    logout( request )
+
+    return redirect( 'djangoapp:index' )
 
 # Create a `registration_request` view to handle sign up request
 # def registration_request(request):
