@@ -18,6 +18,19 @@
             background: teal;
             color: white;
         }
+
+        footer
+        {
+            background: #1b1a17;
+            color: #fff;
+            padding: 2em;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+      
     </style>
 
 </head>
@@ -54,6 +67,12 @@
             </ul>
         </div>
     </nav>
+
+    <footer>
+        <div>
+            <a href = '{% url "djangoapp:contact" %}' >Contact</a>
+        </div>
+    </footer>
     <!--Add a dealer table here -->
 
     </body>

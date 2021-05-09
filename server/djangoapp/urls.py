@@ -9,10 +9,16 @@ urlpatterns = [
     # view refers to the view function
     # name the URL
 
+    path(route='static_page', view=views.simple_django_view, name='static_page'),
+
     # path for about view
+
+    path(route='about', view=views.about, name='about'),
 
     # path for contact us view
 
+    path(route='contact', view=views.contact, name='contact'),
+    
     # path for registration
 
     # path for login
@@ -21,10 +27,9 @@ urlpatterns = [
 
     path(route='', view=views.get_dealerships, name='index'),
 
-    path(route='static_page', view=views.simple_django_view, name='static_page'),
 
-    path(route='about', view=views.about_us, name='about'),
     
+
     # path for dealer reviews view
 
     # path for add a review view

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealership Review</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" integrity="sha384-om5I0DqvBk1q7PHpp4PrZPkewnZEiAr3x3ov0oFRvm/1EDhteREdm4akFmeVbZu9"
+ crossorigin="anonymous">
+      <style>
+        h1
+        {
+            padding: 1em;
+            margin: 0px;
+            background: teal;
+            color: white;
+        }
+
+        body
+        {
+            background: #ededed;
+        }
+
+        .nav-color
+        {
+            background: #fff;
+            padding: .5em;
+        }
+
+        .div-para
+        {
+            width: 60%;
+            padding: 2em;
+            background: #fff;
+            margin: 2em auto;
+        }
+
+        .div-who-text
+        {
+            color: grey;
+        }
+
+           ul li
+           {
+               margin-top: 1em;
+           } 
+
+          ul
+        {
+            list-style: none;
+            position: relative;
+            left: -2em; 
+        }
+
+        ul li span:nth-child(1)
+        {
+            position: relative;
+            top: .2em;
+            margin-right: 1em;
+        }
+    </style>
+</head>
+
+    <body>
+            <!--Add a nav bar here -->
+            <h1>About us</h1>
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid nav-color">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Home</a>
+                        <a class="navbar-brand" href="{% url 'djangoapp:static_page' %}">Static page</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class='div-para' >
+                <h3>Discover us:</h3>
+                <hr />
+                <ul>
+                    <li>
+                        <span class="material-icons">
+                            call
+                        </span>
+                        <span> +49000000000 </span>
+                    </li>
+                    <li>
+                        <span class="material-icons">
+                            mail
+                        </span>
+                        <span> best_car@ibm.de </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Add a dealer table here -->
+
+    </body>
+
+</html>
