@@ -21,6 +21,10 @@ urlpatterns = [
 
     path(route='', view=views.get_dealerships, name='index'),
 
+    path(route='static_page', view=views.simple_django_view, name='static_page'),
+
+    path(route='about', view=views.about_us, name='about'),
+    
     # path for dealer reviews view
 
     # path for add a review view
