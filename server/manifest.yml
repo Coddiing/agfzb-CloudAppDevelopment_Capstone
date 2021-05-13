@@ -6,6 +6,6 @@ applications:
     buildpack: python_buildpack
   - name: djangoapp-nginx
     routes:
-      - route: cardealer.us-south.cf.appdomain.cloud/djangoapp
+      - route: cardealer.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpack: staticfile_buildpack
