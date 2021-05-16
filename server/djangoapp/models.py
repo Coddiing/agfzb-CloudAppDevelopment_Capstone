@@ -22,7 +22,7 @@ class CarMake(models.Model):
 # - Dealer id, used to refer a dealer created in cloudant database
 # - Type (CharField with a choices argument to provide limited choices such as Sedan, SUV, WAGON, etc.)
 # - Year (DateField)
-# - Any other fields you would like to include in car model
+        # - Any other fields you would like to include in car model
 # - __str__ method to print a car make object
 
 class CarModel( models.Model ):
