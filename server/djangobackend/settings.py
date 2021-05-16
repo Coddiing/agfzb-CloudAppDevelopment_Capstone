@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [ 
                   'localhost', 
                   'https://theiadocker-4.labs.cognitiveclass.ai:8000/',
-                  'cardealer.us-south.cf.appdomain.cloud'
+                  'cardealer.us-south.cf.appdomain.cloud',
+                  '127.0.0.1'
                 ]
 
 

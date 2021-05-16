@@ -15,6 +15,9 @@ class CarMake(models.Model):
     description = models.TextField( default="" )
     date = models.DateField(  )
 
+    def __str__(self) -> str:
+        return self.name
+
 
 # <HINT> Create a Car Model model `class CarModel(models.Model):`:
 # - Many-To-One relationship to Car Make model (One Car Make has many Car Models, using ForeignKey field)
@@ -30,7 +33,10 @@ class CarModel( models.Model ):
     dealer_id = models.IntegerField()
     car_type = models.TextField( "Sedan", "SUV", "WAGON", "Jeep", "Hummer" )
     year = models.DateField()
-    car_make = models.ForeignKey( to=CarModel, on_delete=models.CASCADE )
+    car_make = models.ForeignKey( to=CarMake, on_delete=models.CASCADE )
+
+    def __str__( self ) -> str:
+        return self.name
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
 
