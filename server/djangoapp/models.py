@@ -1,5 +1,7 @@
+from datetime import timezone
 from django.db import models
 from django.utils.timezone import now
+
 
 
 # Create your models here.
@@ -13,7 +15,7 @@ from django.utils.timezone import now
 class CarMake(models.Model):
     name = models.TextField( default="" )
     description = models.TextField( default="" )
-    date = models.DateField(  )
+    date = models.DateField( default=now )
 
     def __str__(self) -> str:
         return self.name
@@ -30,9 +32,10 @@ class CarMake(models.Model):
 
 class CarModel( models.Model ):
     name = models.TextField( default="" )
-    dealer_id = models.IntegerField()
-    car_type = models.TextField( "Sedan", "SUV", "WAGON", "Jeep", "Hummer" )
-    year = models.DateField()
+    dealer_id = models.TextField( default="" )
+    TYPE_STR = [ ("SEDAN", "Sedan"), ("SUV","Suv"), ("WAGON","Wagon"), ("JEEP","Jeep"), ("HUMMER","Hummer") ]
+    car_type = models.CharField( max_length=20, choices=TYPE_STR, default="Sedan" )
+    year = models.DateField(default=now)
     car_make = models.ForeignKey( to=CarMake, on_delete=models.CASCADE )
 
     def __str__( self ) -> str:
