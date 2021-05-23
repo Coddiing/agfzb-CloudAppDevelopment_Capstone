@@ -2,7 +2,7 @@ import requests
 import json
 # import related models here
 from requests.auth import HTTPBasicAuth
-from djangoapp.models import CarDealer
+from .models import CarDealer, DealerReview
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
@@ -49,6 +49,46 @@ def get_dealers_from_cf(url, **kwargs):
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
                                    short_name=dealer_doc["short_name"],
                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
+            results.append(dealer_obj)
+
+    return results
+
+
+def get_dealer_reviews_from_cf(url, dealer_id):
+    results = []
+    # Call get_request with a URL parameter
+    json_result = get_request(url)
+    print ( 'kwargs: ' + str(json_result) ) 
+    if json_result:
+        # Get the row list in JSON as dealers
+        dealers = json_result["reviews"]
+        # For each dealer object
+        for dealer_doc in dealers:
+            # Get its content in `doc` object
+
+            purchase_date = ''
+            car_make = ''
+            car_model = ''
+            car_year = ''
+            if 'purchase_date' in dealer_doc:
+                purchase_date = dealer_doc[ 'purchase_date' ]
+
+            if 'car_year' in dealer_doc:
+                car_year = dealer_doc[ 'car_year' ]
+
+            if 'car_model' in dealer_doc:
+                car_model = dealer_doc[ 'car_model' ]
+
+            if 'car_make' in dealer_doc:
+                car_make = dealer_doc[ 'car_make' ]
+
+
+            # Create a CarDealer object with values in `doc` object
+            dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"],
+                                   purchase=dealer_doc["purchase"],
+                                   review=dealer_doc["review"], purchase_date=purchase_date, car_make=car_make,
+                                   car_model=car_model,
+                                   car_year=car_year, sentiment='', id=dealer_doc["id"] )
             results.append(dealer_obj)
 
     return results

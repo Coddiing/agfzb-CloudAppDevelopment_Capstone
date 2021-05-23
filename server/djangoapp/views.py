@@ -1,4 +1,4 @@
-from djangoapp.restapis import get_dealers_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
@@ -109,8 +109,20 @@ def get_dealerships(request):
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-# def get_dealer_details(request, dealer_id):
-# ...
+def get_dealer_details(request, dealer_id):
+    context = {}
+
+    if request.method=="GET":
+
+        url = "https://6c01f567.us-south.apigw.appdomain.cloud/review/api/review"
+
+        reviews = get_dealer_reviews_from_cf ( url, dealer_id )
+
+        review_names = '; '.join( [rev.name for rev in reviews] )
+
+
+        return HttpResponse( review_names )
+
 
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
