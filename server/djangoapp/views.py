@@ -1,3 +1,4 @@
+from djangoapp.restapis import get_dealers_from_cf
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
@@ -93,7 +94,18 @@ def registration_request(request):
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
-        return render(request, 'djangoapp/index.html', context)
+
+        url = "https://6c01f567.us-south.apigw.appdomain.cloud/api/dealerships/api/dealerships"
+
+        dealerships = get_dealers_from_cf( url )
+
+        dealer_names = ''.join( [dealer.short_name for dealer in dealerships] )
+
+
+        return HttpResponse( dealer_names )
+        #return render(request, 'djangoapp/index.html', context)
+
+    
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
