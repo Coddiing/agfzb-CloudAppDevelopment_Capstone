@@ -118,7 +118,7 @@ def get_dealer_details(request, dealer_id):
 
         reviews = get_dealer_reviews_from_cf ( url, dealer_id )
 
-        review_names = '; '.join( [rev.name for rev in reviews] )
+        review_names = '; '.join( [rev.review for rev in reviews] )
 
 
         return HttpResponse( review_names )
