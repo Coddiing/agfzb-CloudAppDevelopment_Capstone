@@ -3,6 +3,7 @@ import json
 # import related models here
 from requests.auth import HTTPBasicAuth
 from .models import CarDealer, DealerReview
+from .api  import get_api
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
@@ -11,13 +12,27 @@ from .models import CarDealer, DealerReview
 def get_request(url, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
-    try:
+    #try:
         # Call get method of requests library with URL and parameters
-        response = requests.get(url, headers={'Content-Type': 'application/json'},
-                                    params=kwargs) 
-    except:
+    api_key = get_api()
+    print( "kwargs: "+str( kwargs ) )
+
+    params = dict()
+    if 'text' in kwargs:
+        params[ 'text' ] = kwargs[ 'text' ]
+        params[ 'version' ] = kwargs[ 'version' ]
+        params[ 'feature' ] = kwargs[ 'feature' ]
+        params[ 'return_analyzed_text' ] = kwargs[ 'return_analyzed_text' ]
+        response = requests.get( url, headers={'Content-Type': 'application/json'},
+                                params=params, auth=HTTPBasicAuth( 'apikey', api_key ) )
+        print( "Response: {0}" .format( response ) )
+    else:
+        response = requests.get( url, headers={'Content-Type': 'application/json'},
+                                params=kwargs, auth=HTTPBasicAuth( 'apikey', api_key ) )
+
+    #except:
         # If any error occurs
-        print("Network exception occurred")
+    print("Network exception occurred")
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
@@ -58,7 +73,7 @@ def get_dealer_reviews_from_cf(url, dealer_id):
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url)
-    print ( 'kwargs: ' + str(json_result) ) 
+    #print ( 'kwargs: ' + str(json_result) ) 
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["reviews"]
@@ -84,12 +99,14 @@ def get_dealer_reviews_from_cf(url, dealer_id):
 
 
             # Create a CarDealer object with values in `doc` object
-            dealer_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"],
+            review_obj = DealerReview(dealership=dealer_doc["dealership"], name=dealer_doc["name"],
                                    purchase=dealer_doc["purchase"],
                                    review=dealer_doc["review"], purchase_date=purchase_date, car_make=car_make,
                                    car_model=car_model,
                                    car_year=car_year, sentiment='', id=dealer_doc["id"] )
-            results.append(dealer_obj)
+            review_obj.sentiment = analyze_review_sentiments( review_obj.review )
+
+            results.append(review_obj)
 
     return results
 
@@ -101,9 +118,33 @@ def get_dealer_reviews_from_cf(url, dealer_id):
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# def analyze_review_sentiments(text):
-# - Call get_request() with specified arguments
-# - Get the returned sentiment label such as Positive or Negative
+def analyze_review_sentiments(dealerreview):
+    # - Call get_request() with specified arguments
+    # - Get the returned sentiment label such as Positive or Negative
+
+    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/23c313df-d64d-4069-afe1-278753c9760d"
+    json_result = get_request( url=url, text=dealerreview, version="1.1", feature='white', 
+    return_analyzed_text="returned text" )
+
+    #print( "json: {0}" .format( json_result ) )
+
+    return json_result
+
+    
+
+    # response = requests.get( url, headers={'Content-Type': 'application/json'},
+    #                                 params=params, auth=HTTPBasicAuth( 'apikey', get_api() ) )
+    
+    # status_code = response.status_code
+    # print("With status {} ".format(status_code))
+    # json_data = json.loads(response.text)
+    # return json_data
+
+
+def post_request( url, json_payload, **kwargs ):
+    return requests.post( url, params=kwargs, json=json_payload )
+
+
 
 
 

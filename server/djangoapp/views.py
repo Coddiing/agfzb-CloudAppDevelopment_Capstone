@@ -1,4 +1,4 @@
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
@@ -118,13 +118,40 @@ def get_dealer_details(request, dealer_id):
 
         reviews = get_dealer_reviews_from_cf ( url, dealer_id )
 
-        review_names = '; '.join( [rev.review for rev in reviews] )
+        #   print ( reviews )
+
+        for rev in reviews:
+            print(  "revvvv: " + str(request.user) )
+        #review_names = '; '.join( [rev.sentiment for rev in reviews] )
 
 
-        return HttpResponse( review_names )
+        return HttpResponse( '' )
 
 
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
+def add_review(request, rev_id):
+   
+    review = dict()
+    json_payload = dict()
+    url = "https://6c01f567.us-south.apigw.appdomain.cloud/review/api/review"
+    if request.user:
+        review["purchase_date"] = datetime.utcnow().isoformat()
+        review["dealership"] = 11
+        review["review"] = "This is a great car dealer"
+        review[ "car_make" ] = "Jeep"
+        review [ "car_model" ] = "U9"
+        review[ "car_year" ] = "2020"
+        json_payload[ "review" ] = review
+
+        
+        response = post_request( url=url, json_payload=json_payload, id=rev_id )
+
+        
+        return HttpResponse( response )
+
+   
+    return HttpResponse( "Not found" )
+
+
+        
 
